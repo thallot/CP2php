@@ -11,6 +11,8 @@ class Parser {
 
     'variable' => "/^[a-zA-Z]+/",
     'number' => "/^[+-]?\d*\.?\d+/",
+
+    'operator' => '/[\^\+\-\*\/]/',
   ];
 
   public $error = false;
@@ -33,7 +35,7 @@ class Parser {
   public function extractIfMatch(string $regex, string $type)
   {
     $matches = [];
-    if (preg_match($regex, $this->toParse, $matches))
+    if (preg_match($regex, $this->toParse, $matches) && !empty(current($matches)))
     {
       $this->result[] = [$type => current($matches)];
       $this->toParse = substr($this->toParse, strlen(current($matches)));;
